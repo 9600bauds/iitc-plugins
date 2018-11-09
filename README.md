@@ -3,4 +3,4 @@ Just scripts for [IITC](https://iitc.me/desktop/) that I created mostly for pers
 
 ## Plugins
 
-* [open-in-fieldsim.user.js](https://github.com/9600bauds/iitc-plugins/raw/open-in-fieldsim/open-in-fieldsim.user.js)
+* [open-in-fieldsim.user.js](https://github.com/9600bauds/iitc-plugins/raw/master/open-in-fieldsim/open-in-fieldsim.user.js)
