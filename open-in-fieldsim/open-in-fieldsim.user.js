@@ -4,8 +4,8 @@
 // @category       Misc
 // @version        0.1
 // @namespace      fieldsimmer
-// @updateURL      https://github.com/9600bauds/iitc-plugins/raw/open-in-fieldsim/open-in-fieldsim.user.js
-// @downloadURL    https://github.com/9600bauds/iitc-plugins/raw/open-in-fieldsim/open-in-fieldsim.user.js
+// @updateURL      https://github.com/9600bauds/iitc-plugins/raw/master/open-in-fieldsim/open-in-fieldsim.user.js
+// @downloadURL    https://github.com/9600bauds/iitc-plugins/raw/master/open-in-fieldsim/open-in-fieldsim.user.js
 // @description    Open an approximate copy of the current screen in the Ingress Control Field Simulator.
 // @include        https://*.ingress.com/intel*
 // @include        http://*.ingress.com/intel*
