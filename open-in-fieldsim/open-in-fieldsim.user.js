@@ -25,86 +25,86 @@ if(typeof window.plugin !== 'function') window.plugin = function() {};
 window.plugin.fieldsimmer = function() {};
 
 window.plugin.fieldsimmer.forgeUrl = function() {
-	var boardwidth = 1500;
+    var boardwidth = 1500;
     var boardheight = 800;
-    var margin = 20; //space we leave at the sides of the board for easy access
-	var eligible_portals = [];
-	var lowest_lat = 99999;
-	var highest_lat = -99999;
-	var lowest_lng = 99999;
-	var highest_lng = -99999;
-	var b = window.map.getBounds();
-	for(var listindex in window.portals) {
-		var p = window.portals[listindex];
-		// skip if not currently visible
-		if(p._latlng.lat < b._southWest.lat || p._latlng.lng < b._southWest.lng ||
-			p._latlng.lat > b._northEast.lat || p._latlng.lng > b._northEast.lng) continue;
-		eligible_portals.push(p);
-		lowest_lat = Math.min(lowest_lat, p._latlng.lat)
-		highest_lat = Math.max(highest_lat, p._latlng.lat)
-		lowest_lng = Math.min(lowest_lng, p._latlng.lng)
-		highest_lng = Math.max(highest_lng, p._latlng.lng)
-	}
-	
-	var counter = 0;
-	var final_str = "http://melpon.github.io/cfsimu/english.html?p=";
-	final_str += serialize_int(eligible_portals.length+1); //portal_id
-	final_str += serialize_int(0); //current
-	final_str += serialize_int(eligible_portals.length);
-	for(var listindex in eligible_portals) {
-		var p = eligible_portals[listindex];
-		
-		counter += 1;
-		final_str += serialize_int(counter); //arbitrary id
-		final_str += serialize_string(p.options.data.title.replace(/\"/g, "\\\"")); //portal name
-		var x = margin + parseInt(crazy_lerp(p._latlng.lng, highest_lng, lowest_lng) * (boardwidth - 2*margin));
-		final_str += serialize_int(x);
-		var y = margin + parseInt(crazy_lerp(p._latlng.lat, lowest_lat, highest_lat) * (boardheight - 2*margin));
-		final_str += serialize_int(y);
-		final_str += 'r'; //todo?
-	}
-	final_str += serialize_int(0); //command length
-	final_str += serialize_int(1); //request board enlargement please
-	
-	window.open(final_str, '_blank');
+    var margin = 25; //space we leave at the sides of the board for easy access
+    var eligible_portals = [];
+    var lowest_lat = 99999;
+    var highest_lat = -99999;
+    var lowest_lng = 99999;
+    var highest_lng = -99999;
+    var b = window.map.getBounds();
+    for(var listindex in window.portals) {
+        var p = window.portals[listindex];
+        // skip if not currently visible
+        if(p._latlng.lat < b._southWest.lat || p._latlng.lng < b._southWest.lng ||
+            p._latlng.lat > b._northEast.lat || p._latlng.lng > b._northEast.lng) continue;
+        eligible_portals.push(p);
+        lowest_lat = Math.min(lowest_lat, p._latlng.lat)
+        highest_lat = Math.max(highest_lat, p._latlng.lat)
+        lowest_lng = Math.min(lowest_lng, p._latlng.lng)
+        highest_lng = Math.max(highest_lng, p._latlng.lng)
+    }
+
+    var counter = 0;
+    var final_str = "http://melpon.github.io/cfsimu/english.html?p=";
+    final_str += serialize_int(eligible_portals.length+1); //portal_id
+    final_str += serialize_int(0); //current
+    final_str += serialize_int(eligible_portals.length);
+    for(var listindex in eligible_portals) {
+        var p = eligible_portals[listindex];
+
+        counter += 1;
+        final_str += serialize_int(counter); //arbitrary id
+        final_str += serialize_string(p.options.data.title.replace(/\"/g, "\\\"")); //portal name
+        var x = margin + parseInt(crazy_lerp(p._latlng.lng, highest_lng, lowest_lng) * (boardwidth - 2*margin));
+        final_str += serialize_int(x);
+        var y = margin + parseInt(crazy_lerp(p._latlng.lat, lowest_lat, highest_lat) * (boardheight - 2*margin));
+        final_str += serialize_int(y);
+        final_str += 'r'; //todo?
+    }
+    final_str += serialize_int(0); //command length
+    final_str += serialize_int(1); //request board enlargement please
+
+    window.open(final_str, '_blank');
 }
 
 var ENCODE_STR = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 var DECODE_OBJ = {};
 for (var i = 0; i < ENCODE_STR.length; i++) {
-	DECODE_OBJ[ENCODE_STR[i]] = i;
+    DECODE_OBJ[ENCODE_STR[i]] = i;
 };
 var serialize_int = function(num) {
-	//return num + "-";
-	// 5bit compressed encoding.
-	var result = '';
-	while (num >= 32) {
-		result += ENCODE_STR[(num & 0x1f) + 32];
-		num >>= 5;
-	}
-	result += ENCODE_STR[num];
+    //return num + "-";
+    // 5bit compressed encoding.
+    var result = '';
+    while (num >= 32) {
+        result += ENCODE_STR[(num & 0x1f) + 32];
+        num >>= 5;
+    }
+    result += ENCODE_STR[num];
 
-	return result;
+    return result;
 }
 var serialize_string = function(str) {
-	//return str + "-";
-	var result = '';
-	str = encodeURIComponent(str);
-	result += serialize_int(str.length);
-	result += str;
-	return result;
+    //return str + "-";
+    var result = '';
+    str = encodeURIComponent(str);
+    result += serialize_int(str.length);
+    result += str;
+    return result;
 }
 
 var crazy_lerp = function(x, a, b) {
-	if(a == b) return 1
-	var result = (b - x)/(b - a);
-	if(result > 1) return 1;
-	if(result < 0) return 0;
-	return result;
+    if(a == b) return 1
+    var result = (b - x)/(b - a);
+    if(result > 1) return 1;
+    if(result < 0) return 0;
+    return result;
 }
 
 var setup = function() {
-	$('#toolbox').append('<a onclick="window.plugin.fieldsimmer.forgeUrl()" title="Open a new tab simulating the portals in view on the Ingress Control Field Simulator.">Field Sim</a>');
+    $('#toolbox').append('<a onclick="window.plugin.fieldsimmer.forgeUrl()" title="Open a new tab simulating the portals in view on the Ingress Control Field Simulator.">Field Sim</a>');
 }
 
 
