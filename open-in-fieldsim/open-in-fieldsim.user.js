@@ -2,7 +2,7 @@
 // @id             iitc-plugin-open-in-fieldsim
 // @name           IITC plugin: Open in ICFS
 // @category       Misc
-// @version        0.1.1
+// @version        0.2
 // @namespace      fieldsimmer
 // @updateURL      https://github.com/9600bauds/iitc-plugins/raw/master/open-in-fieldsim/open-in-fieldsim.user.js
 // @downloadURL    https://github.com/9600bauds/iitc-plugins/raw/master/open-in-fieldsim/open-in-fieldsim.user.js
@@ -25,7 +25,9 @@ if(typeof window.plugin !== 'function') window.plugin = function() {};
 window.plugin.fieldsimmer = function() {};
 
 window.plugin.fieldsimmer.forgeUrl = function() {
-	var boardsize = 400; //The default Ingress Control Field Simulator board size. I highly recommend you modify this value, then rightclick -> inspect element on ICFS and manually set the board width and height to that.
+	var boardwidth = 1500;
+    var boardheight = 800;
+    var margin = 20; //space we leave at the sides of the board for easy access
 	var eligible_portals = [];
 	var lowest_lat = 99999;
 	var highest_lat = -99999;
@@ -55,13 +57,14 @@ window.plugin.fieldsimmer.forgeUrl = function() {
 		counter += 1;
 		final_str += serialize_int(counter); //arbitrary id
 		final_str += serialize_string(p.options.data.title.replace(/\"/g, "\\\"")); //portal name
-		var x = parseInt(crazy_lerp(p._latlng.lng, highest_lng, lowest_lng) * boardsize);
+		var x = margin + parseInt(crazy_lerp(p._latlng.lng, highest_lng, lowest_lng) * (boardwidth - 2*margin));
 		final_str += serialize_int(x);
-		var y = parseInt(crazy_lerp(p._latlng.lat, lowest_lat, highest_lat) * boardsize);
+		var y = margin + parseInt(crazy_lerp(p._latlng.lat, lowest_lat, highest_lat) * (boardheight - 2*margin));
 		final_str += serialize_int(y);
 		final_str += 'r'; //todo?
 	}
 	final_str += serialize_int(0); //command length
+	final_str += serialize_int(1); //request board enlargement please
 	
 	window.open(final_str, '_blank');
 }
