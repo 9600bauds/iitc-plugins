@@ -2,7 +2,7 @@
 // @id             iitc-plugin-open-in-fieldsim
 // @name           IITC plugin: Open in ICFS
 // @category       Misc
-// @version        0.2
+// @version        0.2.1
 // @namespace      fieldsimmer
 // @updateURL      https://github.com/9600bauds/iitc-plugins/raw/master/open-in-fieldsim/open-in-fieldsim.user.js
 // @downloadURL    https://github.com/9600bauds/iitc-plugins/raw/master/open-in-fieldsim/open-in-fieldsim.user.js
@@ -47,7 +47,7 @@ window.plugin.fieldsimmer.forgeUrl = function() {
     }
 
     var counter = 0;
-    var final_str = "http://melpon.github.io/cfsimu/english.html?p=";
+    var final_str = "https://9600bauds.github.io/cfsimu/english.html?p=";
     final_str += serialize_int(eligible_portals.length+1); //portal_id
     final_str += serialize_int(0); //current
     final_str += serialize_int(eligible_portals.length);
